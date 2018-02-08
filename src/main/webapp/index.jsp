@@ -10,4 +10,8 @@
 	<p>
 		You are coming from 
 		<%= request.getRemoteAddr()  %></p>
+	<p>
+		You are accessing  
+		<%= request.getLocalName()  %> (<%= request.getLocalAddr() %>)</p>
+
 </body>
