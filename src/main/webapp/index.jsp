@@ -16,7 +16,14 @@
 		<%= request.getLocalName()  %> (<%= request.getLocalAddr() %>)</p>
 
 	<p>
-	
+	<table>
+		<tr>
+			<th>p_id</th>
+			<th>first_name</th>
+			<th>last_name</th>
+			<th>description</th>
+			<th>created_at</th>
+		</tr>
 	<%
 		try {
 			InitialContext ctx = new InitialContext();
@@ -28,7 +35,13 @@
 		
 			while(rs != null && rs.next()) {
 	%>
-				Name: <%= rs.getString("first_name") %><br/>
+		<tr>
+			<td><%= rs.getInt("p_id") %></td>
+			<td><%= rs.getString("first_name") %></td>
+			<td><%= rs.getString("last_name") %></td>
+			<td><%= rs.getString("description") %></td>
+			<td><%= rs.getTimestamp("created_at") %></td>
+		</tr>
 	<% 
 			} // end while 
 		} catch (Exception e) {
@@ -37,4 +50,5 @@
 	<%
 		}
 	%>
+	</table>
 </body>
