@@ -18,4 +18,10 @@ public class SampleTest {
     public void testFalse() { 
         assertFalse(false);
     }
+
+    @Test
+    public void testNothing() {
+        SampleClass sc = new SampleClass();
+        sc.test();
+    }
 }

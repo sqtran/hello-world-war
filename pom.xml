@@ -12,6 +12,14 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.pmd.plugin>3.13.0</maven.pmd.plugin>
+		<maven.checkstyle.plugin>3.1.1</maven.checkstyle.plugin>
+		<maven.war.plugin>3.3.1</maven.war.plugin>
+		<maven.site.plugin>3.7.1</maven.site.plugin>
+		<maven.project.info.reports.plugin>3.0.0</maven.project.info.reports.plugin>
+		<findbugs.maven.plugin>3.0.4</findbugs.maven.plugin>
+		<jacoco.maven.plugin>0.8.5</jacoco.maven.plugin>
+
 	</properties>
 
 	<dependencies>
@@ -34,12 +42,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.13.0</version>
+				<version>${maven.pmd.plugin}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.1.1</version>
+				<version>${maven.checkstyle.plugin}</version>
 				<reportSets>
 				  <reportSet>
 					<reports>
@@ -47,11 +55,24 @@
 					</reports>
 				  </reportSet>
 				</reportSets>
-			  </plugin>
-			  <plugin>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.4</version>
+				<version>${findbugs.maven.plugin}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.maven.plugin}</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<!-- select non-aggregate reports -->
+							<report>report</report>
+					  	</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -62,18 +83,38 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.3.1</version>
+				<version>${maven.war.plugin}</version>
 			</plugin>
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.7.1</version>
+                <version>${maven.site.plugin}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.0.0</version>
-            </plugin>
+                <version>${maven.project.info.reports.plugin}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.maven.plugin}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<!-- attached to Maven test phase -->
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
