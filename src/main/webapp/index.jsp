@@ -1,4 +1,4 @@
-<%@ page import="java.sql.*, javax.sql.*, java.io.*, javax.naming.*" %>
+<%@ page import="java.sql.*, javax.sql.*, java.io.*, javax.naming.*, java.util.*" %>
 <html>
 <head>
 <title>Hello World!</title>
@@ -14,6 +14,18 @@
 	<p>
 		You are accessing  
 		<%= request.getLocalName()  %> (<%= request.getLocalAddr() %>)</p>
+
+	<p>
+		Environment Variables: <br/>
+		<%
+			Map<String, String> env = System.getenv();
+			for (String envName : env.keySet()) {
+		%>
+				[<%= envName %>] = [<%= env.get(envName) %>] <br/>
+		<%
+			}
+		%>
+	</p>
 
 	<p>
 	<table>
