@@ -1,3 +1,7 @@
+
+CREATE user 'user'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON * . * TO 'user'@'%';
+
 CREATE TABLE IF NOT EXISTS people (
     p_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
