@@ -1,4 +1,4 @@
-
+use test;
 CREATE user 'user'@'%' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON * . * TO 'user'@'%';
 
@@ -11,14 +11,13 @@ CREATE TABLE IF NOT EXISTS people (
 )  ENGINE=INNODB;
 
 insert into people values(null, "Kirk", "Van Houten", "Can I Borrow A Feeling", null);
-insert into people values(null, "Luann", "Van Houten", null, null);
-insert into people values(null, "Milhouse", "Van Houten", null, null);
-insert into people values(null, "Homer", "Simpson", null, null);
-insert into people values(null, "Marge", "Simpson", null, null);
-insert into people values(null, "Bart", "Simpson", null, null);
-insert into people values(null, "Lisa", "Simpson", null, null);
+insert into people values(null, "Luanne", "Van Houten", "The other day Milhouse told me my meatloaf sucks. He must have gotten that from your little boy because they certainly don't say that word on TV.", null);
+insert into people values(null, "Milhouse", "Van Houten", "THRILLHO", null);
+insert into people values(null, "Homer", "Simpson", "Doh!", null);
+insert into people values(null, "Marge", "Simpson", "hmmmmmmmm", null);
+insert into people values(null, "Bart", "Simpson", "Ay Caramba!", null);
+insert into people values(null, "Lisa", "Simpson", "The smart one", null);
 insert into people values(null, "Maggie", "Simpson", "The baby", null);
-insert into people values(null, "Clancy", "Wiggum", "A cop", null);
-insert into people values(null, "Sarah", "Wiggum", null, null);
-insert into people values(null, "Ralph", "Wiggum", null, null);
-
+insert into people values(null, "Clancy", "Wiggum", "The Chief", null);
+insert into people values(null, "Sarah", "Wiggum", "Ralph's mom", null);
+insert into people values(null, "Ralph", "Wiggum", "Taste like burning", null);

@@ -57,9 +57,11 @@
 	<% 
 			} // end while 
 		} catch (Exception e) {
-	%>
-			<%= e.getMessage() %>	
-	<%
+			e.printStackTrace();
+		} finally {
+			if(rs != null) rs.close();
+			if(st != null) st.close();
+			if(conn != null) conn.close();
 		}
 	%>
 	</table>
