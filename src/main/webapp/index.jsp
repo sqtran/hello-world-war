@@ -37,13 +37,18 @@
 			<th>created_at</th>
 		</tr>
 	<%
+
+		Connection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+
 		try {
 			InitialContext ctx = new InitialContext();
 	
 			DataSource ds = (DataSource)ctx.lookup("java:/example");
-			Connection conn = ds.getConnection();
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery("select * from people");
+			conn = ds.getConnection();
+			st = conn.createStatement();
+			rs = st.executeQuery("select * from people");
 		
 			while(rs != null && rs.next()) {
 	%>
