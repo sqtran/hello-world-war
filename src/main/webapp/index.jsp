@@ -9,24 +9,29 @@
 		It is now
 		<%= new java.util.Date() %></p>
 	<p>
-		You are coming from 
+		You are coming from
 		<%= request.getRemoteAddr()  %></p>
 	<p>
-		You are accessing  
+		You are accessing
 		<%= request.getLocalName()  %> (<%= request.getLocalAddr() %>)</p>
 
-	<p>
-		Environment Variables: <br/>
-		<%
-			Map<String, String> env = System.getenv();
-			for (String envName : env.keySet()) {
-		%>
-				[<%= envName %>] = [<%= env.get(envName) %>] <br/>
-		<%
-			}
-		%>
-	</p>
+	<h2>Environment Variables:</h2>
 
+	<table>
+	<tr style="text-align:left;">
+	<th>Key</th><th>Value</th>
+	</tr>
+	<%
+		Map<String, String> env = System.getenv();
+		for (String envName : env.keySet()) {
+	%>
+		<tr><td><%= envName %></td><td><%= env.get(envName) %></td></tr>
+	<%
+		}
+	%>
+	</table>
+
+	<h2> MariaDB Datasource </h2>
 	<p>
 	<table>
 		<tr>
@@ -44,12 +49,12 @@
 
 		try {
 			InitialContext ctx = new InitialContext();
-	
+
 			DataSource ds = (DataSource)ctx.lookup("java:/example");
 			conn = ds.getConnection();
 			st = conn.createStatement();
 			rs = st.executeQuery("select * from people");
-		
+
 			while(rs != null && rs.next()) {
 	%>
 		<tr>
@@ -59,8 +64,8 @@
 			<td><%= rs.getString("description") %></td>
 			<td><%= rs.getTimestamp("created_at") %></td>
 		</tr>
-	<% 
-			} // end while 
+	<%
+			} // end while
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
