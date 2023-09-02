@@ -1,0 +1,12 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  generation: 1
+  labels:
+    application: eap-app
+    template: eap72-basic-s2i
+    xpaas: 1.2.0
+  name: eap-app
+spec:
+  lookupPolicy:
+    local: false

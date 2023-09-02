@@ -1,5 +1,6 @@
-<%@ page import="java.sql.*, javax.sql.*, java.io.*, javax.naming.*, java.util.*" %>
-<html>
+<%@ page import="java.sql.*, javax.sql.*, java.io.*, javax.naming.*, java.util.*, org.apache.logging.log4j.*" %>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <title>Hello World!</title>
 </head>
@@ -18,6 +19,7 @@
 	<h2>Environment Variables:</h2>
 
 	<table>
+		<caption>Environment variable data table</caption>
 	<tr style="text-align:left;">
 	<th>Key</th><th>Value</th>
 	</tr>
@@ -34,6 +36,7 @@
 	<h2> MariaDB Datasource </h2>
 	<p>
 	<table>
+		<caption>Sample MariaDB data table</caption>
 		<tr>
 			<th>p_id</th>
 			<th>first_name</th>
@@ -67,6 +70,8 @@
 	<%
 			} // end while
 		} catch (Exception e) {
+			Logger logger = LogManager.getLogger();
+			logger.fatal("omg!");
 			e.printStackTrace();
 		} finally {
 			if(rs != null) rs.close();

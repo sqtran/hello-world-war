@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  DB_SERVICE_PREFIX_MAPPING: example-mysql=DS1
+  DS1_CONNECTION_CHECKER: org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker
+  DS1_DATABASE: test
+  DS1_DRIVER: mysql
+  DS1_EXCEPTION_SORTER: org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
+  DS1_JNDI: java:/example
+  DS1_PASSWORD: password
+  DS1_USERNAME: user
+  EXAMPLE_MYSQL_SERVICE_HOST: mariadb.demo1.svc.cluster.local
+  EXAMPLE_MYSQL_SERVICE_PORT: "3306"
+kind: ConfigMap
+metadata:
+  name: exampleds

@@ -3,4 +3,24 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 >
 	<!-- This is only here because Maven requires it to make a war. -->
+
+	<context-param>
+        <param-name>isLog4jAutoInitializationDisabled</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>Resource1</servlet-name>
+        <servlet-class>com.example.MySimpleServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Resource1</servlet-name>
+        <url-pattern>/myservlet</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>com.example.MyListener</listener-class>
+    </listener>
+
 </web-app>
