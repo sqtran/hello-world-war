@@ -1,0 +1,23 @@
+# Use the official IBM WebSphere Liberty image as the base image
+FROM websphere-liberty:latest
+
+# Copy your server.xml and WAR file to the Liberty server configuration folder
+COPY server.xml /config/server.xml
+COPY target/hello-world.war /config/apps/
+
+COPY mykeystore.jks /var/tmp/
+
+# Expose the default Liberty server HTTP port
+EXPOSE 9080
+
+# Expose the default Liberty server HTTPS port
+EXPOSE 9443
+
+EXPOSE 1099
+
+EXPOSE 5000
+
+EXPOSE 8888
+
+# Start the Liberty server when the container starts
+CMD ["/opt/ibm/wlp/bin/server", "run", "defaultServer"]
