@@ -19,21 +19,19 @@
 		<maven.project.info.reports.plugin>3.0.0</maven.project.info.reports.plugin>
 		<findbugs.maven.plugin>3.0.4</findbugs.maven.plugin>
 		<jacoco.maven.plugin>0.8.5</jacoco.maven.plugin>
-
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
-			<scope>test</scope>
-		  </dependency>
 		  <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.1</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>1.12.4</version>
 		</dependency>
 	</dependencies>
 
