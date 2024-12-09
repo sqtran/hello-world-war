@@ -2,7 +2,7 @@ schemaVersion: 2.1.0
 metadata:
   name: websphere-liberty-app
   version: 1.0.0
-  description: Devfile for building and deploying an application to IBM WebSphere Liberty without using a registry
+  description: Devfile for building and deploying an application to IBM WebSphere Liberty on OpenShift DevSpaces
 
 components:
   - name: maven
@@ -19,7 +19,8 @@ components:
         - name: m2
           path: /root/.m2
 
-  - name: build-container
+
+  - name: buildah
     container:
       image: quay.io/buildah/stable:latest
       memoryLimit: 1Gi
@@ -35,31 +36,41 @@ components:
         - name: image-store
           path: /tmp/images
 
-  - name: websphere-liberty
-    container:
-      image: icr.io/appcafe/websphere-liberty:latest
-      memoryLimit: 1Gi
-      env:
-        - name: LICENSE
-          value: "accept"
-      ports:
-        - name: http
-          containerPort: 9080
-        - name: https
-          containerPort: 9443
+  - name: openshift-liberty
+    kubernetes:
+      inlined: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: websphere-liberty-app
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: websphere-liberty-app
+          template:
+            metadata:
+              labels:
+                app: websphere-liberty-app
+            spec:
+              containers:
+                - name: websphere-liberty
+                  image: local-websphere-liberty:latest
+                  imagePullPolicy: Never
+                  ports:
+                    - containerPort: 9080
+                    - containerPort: 9443
+                  env:
+                    - name: LICENSE
+                      value: "accept"
+                  volumeMounts:
+                    - name: app-config
+                      mountPath: /config
+              volumes:
+                - name: app-config
+                  emptyDir: {}
 
-  - name: pvc
-    volume:
-      size: 1Gi
 
-volumes:
-  - name: m2
-    size: 512Mi
-  - name: docker-sock
-    hostPath:
-      path: /var/run/docker.sock
-  - name: image-store
-    emptyDir: {}
 
 commands:
   - id: install
@@ -73,7 +84,7 @@ commands:
 
   - id: build-image
     exec:
-      component: build-container
+      component: buildah
       commandLine: >
         buildah bud -f /projects/application/Dockerfile -t local-websphere-liberty .
       workingDir: "/projects/application"
@@ -82,72 +93,18 @@ commands:
         isDefault: false
 
   - id: deploy
-    exec:
-      component: build-container
-      commandLine: >
-        kubectl apply -f /projects/application/k8s/deployment.yaml
-      workingDir: "/projects/application"
-      group:
-        kind: deploy
-        isDefault: true
+    apply:
+      component: openshift-liberty
 
   - id: undeploy
     exec:
       component: maven
-      commandLine: "kubectl delete -f /projects/application/k8s/deployment.yaml"
+      commandLine: "kubectl delete deployment websphere-liberty-app"
       workingDir: "/projects/application"
 
 projects:
-  - name: application
-    source:
-      type: git
-      location: "https://github.com/sqtran/hello-world-war.git"
-      branch: liberty
-
-
-kubernetes:
-  - name: websphere-deployment
-    inlined: |
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: websphere-liberty-app
-      spec:
-        replicas: 1
-        selector:
-          matchLabels:
-            app: websphere-liberty-app
-        template:
-          metadata:
-            labels:
-              app: websphere-liberty-app
-          spec:
-            containers:
-              - name: websphere-liberty
-                image: local-websphere-liberty:latest
-                imagePullPolicy: Never
-                ports:
-                  - containerPort: 9080
-                  - containerPort: 9443
-                env:
-                  - name: LICENSE
-                    value: "accept"
-                volumeMounts:
-                  - name: app-config
-                    mountPath: /config
-            volumes:
-              - name: app-config
-                emptyDir: {}
-
-      ---
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: websphere-liberty-service
-      spec:
-        selector:
-          app: websphere-liberty-app
-        ports:
-          - protocol: TCP
-            port: 9080
-            targetPort: 9080
+  - name: hello-application
+    git:
+      remotes:
+          source: "https://github.com/sqtran/hello-world-war.git"
+          branch: "main"
