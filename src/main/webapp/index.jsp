@@ -50,7 +50,7 @@
 		try {
 			InitialContext ctx = new InitialContext();
 
-			DataSource ds = (DataSource)ctx.lookup("java:/example");
+			DataSource ds = (DataSource)ctx.lookup("java:/jdbc/myDatasource");
 			conn = ds.getConnection();
 			st = conn.createStatement();
 			rs = st.executeQuery("select * from people");

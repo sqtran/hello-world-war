@@ -2,35 +2,21 @@
 
     <!-- Enable features -->
     <featureManager>
-        <feature>webProfile-8.0</feature>
         <feature>javaee-8.0</feature>
-        <!-- Add any additional features you need here -->
-        <feature>restConnector-2.0</feature>
-        <!-- <feature>ssl-1.0</feature> -->
-        <feature>transportSecurity-1.0</feature>
-        <feature>appSecurity-2.0</feature>
+        <feature>mpMetrics-2.3</feature>
 
     </featureManager>
 
-<!--
-    <jmx-remote-connector/>
-    <restConnector id="jmxRestConnector">
-        <httpsListener securityEnabled="false" port="8888"/>
-    </restConnector> -->
-
-
-    <quickStartSecurity userName="bob" userPassword="bobpassword" />
 
     <!-- HTTP endpoint -->
     <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
 
 
 
-<!--
-    <ssl id="defaultSSLConfig" keyStoreRef="myKeyStore" sslProtocol="TLSv1.2"/>
-    <keyStore id="myKeyStore" location="/var/tmp/mykeystore.jks" password="changeit" type="JKS"/> -->
+    <!-- <ssl id="defaultSSLConfig" keyStoreRef="myKeyStore" sslProtocol="TLSv1.2"/> -->
+    <keyStore id="myKeyStore" location="/var/tmp/mykeystore.jks" password="changeit" type="JKS"/>
 
-
+    <quickStartSecurity userName="user" userPassword="password"/>
 
 
     <webApplication contextRoot="hello-world" location="hello-world.war" />
@@ -51,7 +37,7 @@
         <jvmOptions>-XX:+FlightRecorder</jvmOptions>
         <jvmOptions>-XX:+UnlockCommercialFeatures</jvmOptions>
 
-         <jvmOptions>-Dcom.sun.management.jmxremote</jvmOptions>
+        <jvmOptions>-Dcom.sun.management.jmxremote</jvmOptions>
         <jvmOptions>-Dcom.sun.management.jmxremote.authenticate=false</jvmOptions>
         <jvmOptions>-Dcom.sun.management.jmxremote.ssl=false</jvmOptions>
         <jvmOptions>-Dcom.sun.management.jmxremote.local.only=false</jvmOptions>
@@ -60,9 +46,9 @@
         <jvmOptions>-Djava.rmi.server.hostname=$HOST_HOSTNAME</jvmOptions>
     </jvmEntries> -->
 
-    <jvmEntries>
+    <!-- <jvmEntries>
         <jvmOptions>-Djava.rmi.server.hostname=192.168.122.1</jvmOptions>
-    </jvmEntries>
+    </jvmEntries> -->
 
     <!-- Optional datasource configuration -->
     <!--
