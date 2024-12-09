@@ -19,6 +19,20 @@ components:
         - name: m2
           path: /root/.m2
 
+  - name: m2
+    volume:
+      ephemeral: true
+      size: 2Gi
+
+  - name: docker-sock
+    volume:
+      ephemeral: true
+      size: 2Gi
+
+  - name: image-store
+    volume:
+      ephemeral: true
+      size: 2Gi
 
   - name: buildah
     container:
@@ -106,5 +120,6 @@ projects:
   - name: hello-application
     git:
       remotes:
-          source: "https://github.com/sqtran/hello-world-war.git"
-          branch: "main"
+        origin: "https://github.com/sqtran/hello-world-war.git"
+      checkoutFrom:
+        revision: liberty
