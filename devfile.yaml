@@ -18,6 +18,11 @@ components:
       volumeMounts:
         - name: m2
           path: /root/.m2
+      env:
+        - name: KUBEDOCK_ENABLED
+          value: 'true'
+        - name: CONTAINER_HOST
+          value: tcp://127.0.0.1:2475
 
   - name: m2
     volume:
