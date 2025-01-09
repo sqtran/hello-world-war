@@ -53,10 +53,6 @@ components:
     volume:
       ephemeral: true
       size: 2Gi
-  - name: liberty-runtime
-    volume:
-      ephemeral: true
-      size: 1Gi
 
 commands:
   - id: build-war
@@ -71,9 +67,9 @@ commands:
     exec:
       component: liberty
       commandLine: cp ${PROJECT_SOURCE}/target/*.war /liberty/usr/servers/defaultServer/dropins
-  - id: run-server
+  - id: deploy-server
     exec:
-      component: open-liberty
+      component: liberty
       commandLine: /opt/ibm/wlp/bin/server run
   - id: welcome
     exec:
