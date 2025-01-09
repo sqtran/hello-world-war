@@ -67,7 +67,7 @@ commands:
   - id: deploy-war
     exec:
       component: liberty
-      commandLine: cp /projects/application/target/*.war /liberty/usr/servers/defaultServer/dropins
+      commandLine: cp ${PROJECT_SOURCE}/target/*.war /liberty/usr/servers/defaultServer/dropins
   - id: run-server
     exec:
       component: open-liberty
