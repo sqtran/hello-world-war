@@ -41,6 +41,11 @@ components:
       image: 'websphere-liberty:full-java17-openj9'
       memoryLimit: 2Gi
       mountSources: true
+      command:
+        - /bin/sh
+      args:
+        - '-c'
+        - 'while sleep 1000; do :; done'
       endpoints:
         - name: port-9080
           targetPort: 9080
