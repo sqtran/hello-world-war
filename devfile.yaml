@@ -9,7 +9,7 @@ components:
   - name: dev
     container:
       image: registry.redhat.io/devspaces/udi-rhel8
-      memoryLimit: 512Mi
+      memoryLimit: 1Gi
       mountSources: true
       command:
         - /bin/sh
@@ -20,39 +20,58 @@ components:
         - name: m2
           path: /root/.m2
       env:
-        - name: KUBEDOCK_ENABLED
-          value: 'false'
-        - name: CONTAINER_HOST
-          value: 'tcp://127.0.0.1:2475'
+        - name: WELCOME
+          value: 'Steve'
+          
   - name: liberty
     container:
       image: 'websphere-liberty:full-java17-openj9'
-      memoryLimit: 1Gi
+      memoryLimit: 2Gi
+
+      mountSources: true
+      endpoints:
+        - name: port-9080
+          targetPort: 9080
+          exposure: internal
+      command:
+        - "/opt/ibm/wlp/bin/server"
+      args:
+        - "run"
+      volumeMounts:
+        - name: liberty-runtime
+          path: /liberty
+      
   - name: m2
     volume:
       ephemeral: true
       size: 2Gi
+  - name: liberty-runtime
+    volume:
+      ephemeral: true
+      size: 1Gi
 
 commands:
-  - id: install
+  - id: build-war
     exec:
       component: dev
-      commandLine: mvn install
+      commandLine: mvn clean package
       workingDir: /projects/application
       group:
         kind: build
         isDefault: true
-  - id: command-1
+  - id: deploy-war
     exec:
-      label: Welcome to DevSpaces
-      component: dev
-      commandLine: mvn clean package
-      workingDir: '${PROJECT_SOURCE}'
+      component: liberty
+      commandLine: cp /projects/application/target/*.war /liberty/usr/servers/defaultServer/dropins
+  - id: run-server
+    exec:
+      component: open-liberty
+      commandLine: /opt/ibm/wlp/bin/server run
   - id: welcome
     exec:
       label: Show Welcome Message
       component: dev
-      commandLine: echo "${WELCOME}"
+      commandLine: echo "hello ${WELCOME}"
       workingDir: ${PROJECT_SOURCE}
 projects:
   - name: hello-application
