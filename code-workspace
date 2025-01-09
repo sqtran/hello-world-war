@@ -1,0 +1,11 @@
+{
+    "settings": {},
+    "extensions": {
+        "recommendations": [
+            "redhat.vscode-yaml",
+            "redhat.vscode-xml",
+            "redhat.vscode-openshift-connector",
+            "cnshenj.vscode-task-manager"
+        ]
+    }
+}
