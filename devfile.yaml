@@ -5,6 +5,19 @@ metadata:
   description: >-
     Devfile for building and deploying an application to IBM WebSphere Liberty
     on OpenShift DevSpaces
+
+attributes:
+  .vscode/extensions.json: |
+    {
+      "recommendations": [
+        "redhat.java",
+        "redhat.vscode-yaml",
+        "redhat.vscode-xml",
+        "redhat.vscode-openshift-connector",
+        "cnshenj.vscode-task-manager"
+      ]
+    }
+
 components:
   - name: dev
     container:
