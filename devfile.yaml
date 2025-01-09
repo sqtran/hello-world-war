@@ -6,7 +6,7 @@ metadata:
     Devfile for building and deploying an application to IBM WebSphere Liberty
     on OpenShift DevSpaces
 components:
-  - name: maven
+  - name: dev
     container:
       image: registry.redhat.io/devspaces/udi-rhel8
       memoryLimit: 512Mi
@@ -32,10 +32,11 @@ components:
     volume:
       ephemeral: true
       size: 2Gi
+
 commands:
   - id: install
     exec:
-      component: maven
+      component: dev
       commandLine: mvn install
       workingDir: /projects/application
       group:
@@ -44,9 +45,15 @@ commands:
   - id: command-1
     exec:
       label: Welcome to DevSpaces
-      component: maven
+      component: dev
       commandLine: mvn clean package
       workingDir: '${PROJECT_SOURCE}'
+  - id: welcome
+    exec:
+      label: Show Welcome Message
+      component: dev
+      commandLine: echo "${WELCOME}"
+      workingDir: ${PROJECT_SOURCE}
 projects:
   - name: hello-application
     git:
