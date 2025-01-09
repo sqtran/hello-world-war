@@ -5,6 +5,11 @@ metadata:
   description: Devfile for building and deploying an application to IBM WebSphere Liberty on OpenShift DevSpaces
 
 components:
+  - name: liberty
+    container:
+      image: websphere-liberty:full-java17-openj9
+      memoryLimit: 1Gi
+
   - name: maven
     container:
       image: registry.redhat.io/devspaces/udi-rhel8
