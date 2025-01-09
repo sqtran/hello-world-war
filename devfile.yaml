@@ -49,7 +49,8 @@ components:
       endpoints:
         - name: port-9080
           targetPort: 9080
-          exposure: internal
+          exposure: public
+          protocol: https
       env:
         - name: HOSTNAME
           value: 'localhost'
@@ -72,10 +73,14 @@ commands:
     exec:
       component: liberty
       commandLine: cp ${PROJECT_SOURCE}/target/*.war /liberty/usr/servers/defaultServer/dropins
-  - id: deploy-server
+  - id: start-server
     exec:
       component: liberty
       commandLine: /opt/ibm/wlp/bin/server run
+  - id: stop-server
+    exec:
+      component: liberty
+      commandLine: /opt/ibm/wlp/bin/server stop
   - id: welcome
     exec:
       label: Show Welcome Message
