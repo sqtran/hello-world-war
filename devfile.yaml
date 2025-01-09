@@ -47,7 +47,7 @@ commands:
     exec:
       component: dev
       commandLine: mvn clean package
-      workingDir: /projects/application
+      workingDir: ${PROJECT_SOURCE}
       group:
         kind: build
         isDefault: true
