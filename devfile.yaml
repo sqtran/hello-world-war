@@ -2,8 +2,9 @@ schemaVersion: 2.1.0
 metadata:
   name: websphere-liberty-app
   version: 1.0.0
-  description: Devfile for building and deploying an application to IBM WebSphere Liberty on OpenShift DevSpaces
-
+  description: >-
+    Devfile for building and deploying an application to IBM WebSphere Liberty
+    on OpenShift DevSpaces
 components:
   - name: maven
     container:
@@ -11,10 +12,10 @@ components:
       memoryLimit: 512Mi
       mountSources: true
       command:
-        - "/bin/sh"
+        - /bin/sh
       args:
-        - "-c"
-        - "while sleep 1000; do :; done"
+        - '-c'
+        - 'while sleep 1000; do :; done'
       volumeMounts:
         - name: m2
           path: /root/.m2
@@ -22,33 +23,34 @@ components:
         - name: KUBEDOCK_ENABLED
           value: 'false'
         - name: CONTAINER_HOST
-          value: tcp://127.0.0.1:2475
-
+          value: 'tcp://127.0.0.1:2475'
   - name: liberty
     container:
-      image: websphere-liberty:full-java17-openj9
+      image: 'websphere-liberty:full-java17-openj9'
       memoryLimit: 1Gi
-
   - name: m2
     volume:
       ephemeral: true
       size: 2Gi
-
-
 commands:
   - id: install
     exec:
       component: maven
-      commandLine: "mvn install"
-      workingDir: "/projects/application"
+      commandLine: mvn install
+      workingDir: /projects/application
       group:
         kind: build
         isDefault: true
-
+  - id: command-1
+    exec:
+      label: Welcome to DevSpaces
+      component: maven
+      commandLine: mvn clean package
+      workingDir: '${PROJECT_SOURCE}'
 projects:
   - name: hello-application
     git:
       remotes:
-        origin: "https://github.com/sqtran/hello-world-war.git"
+        origin: 'https://github.com/sqtran/hello-world-war.git'
       checkoutFrom:
         revision: liberty
