@@ -5,11 +5,6 @@ metadata:
   description: Devfile for building and deploying an application to IBM WebSphere Liberty on OpenShift DevSpaces
 
 components:
-  - name: liberty
-    container:
-      image: websphere-liberty:full-java17-openj9
-      memoryLimit: 1Gi
-
   - name: maven
     container:
       image: registry.redhat.io/devspaces/udi-rhel8
@@ -25,75 +20,19 @@ components:
           path: /root/.m2
       env:
         - name: KUBEDOCK_ENABLED
-          value: 'true'
+          value: 'false'
         - name: CONTAINER_HOST
           value: tcp://127.0.0.1:2475
+
+  - name: liberty
+    container:
+      image: websphere-liberty:full-java17-openj9
+      memoryLimit: 1Gi
 
   - name: m2
     volume:
       ephemeral: true
       size: 2Gi
-
-  - name: docker-sock
-    volume:
-      ephemeral: true
-      size: 2Gi
-
-  - name: image-store
-    volume:
-      ephemeral: true
-      size: 2Gi
-
-  - name: buildah
-    container:
-      image: quay.io/buildah/stable:latest
-      memoryLimit: 1Gi
-      mountSources: true
-      command:
-        - "/bin/sh"
-      args:
-        - "-c"
-        - "while sleep 1000; do :; done"
-      volumeMounts:
-        - name: docker-sock
-          path: /var/run/docker.sock
-        - name: image-store
-          path: /tmp/images
-
-  - name: openshift-liberty
-    kubernetes:
-      inlined: |
-        apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          name: websphere-liberty-app
-        spec:
-          replicas: 1
-          selector:
-            matchLabels:
-              app: websphere-liberty-app
-          template:
-            metadata:
-              labels:
-                app: websphere-liberty-app
-            spec:
-              containers:
-                - name: websphere-liberty
-                  image: local-websphere-liberty:latest
-                  imagePullPolicy: Never
-                  ports:
-                    - containerPort: 9080
-                    - containerPort: 9443
-                  env:
-                    - name: LICENSE
-                      value: "accept"
-                  volumeMounts:
-                    - name: app-config
-                      mountPath: /config
-              volumes:
-                - name: app-config
-                  emptyDir: {}
-
 
 
 commands:
@@ -105,26 +44,6 @@ commands:
       group:
         kind: build
         isDefault: true
-
-  - id: build-image
-    exec:
-      component: buildah
-      commandLine: >
-        buildah bud -f /projects/application/Dockerfile -t local-websphere-liberty .
-      workingDir: "/projects/application"
-      group:
-        kind: build
-        isDefault: false
-
-  - id: deploy
-    apply:
-      component: openshift-liberty
-
-  - id: undeploy
-    exec:
-      component: maven
-      commandLine: "kubectl delete deployment websphere-liberty-app"
-      workingDir: "/projects/application"
 
 projects:
   - name: hello-application
