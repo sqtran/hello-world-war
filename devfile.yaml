@@ -27,16 +27,12 @@ components:
     container:
       image: 'websphere-liberty:full-java17-openj9'
       memoryLimit: 2Gi
-
       mountSources: true
       endpoints:
         - name: port-9080
           targetPort: 9080
           exposure: internal
-      command:
-        - "/opt/ibm/wlp/bin/server"
-      args:
-        - "run"
+
       volumeMounts:
         - name: liberty-runtime
           path: /liberty
