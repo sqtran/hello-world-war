@@ -32,10 +32,6 @@ components:
         - name: port-9080
           targetPort: 9080
           exposure: internal
-
-      volumeMounts:
-        - name: liberty-runtime
-          path: /liberty
       
   - name: m2
     volume:
