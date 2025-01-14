@@ -24,17 +24,14 @@ components:
       image: registry.redhat.io/devspaces/udi-rhel8
       memoryLimit: 1Gi
       mountSources: true
-      command:
-        - /bin/sh
-      args:
-        - '-c'
-        - 'while sleep 1000; do :; done'
       volumeMounts:
         - name: m2
           path: /root/.m2
       env:
         - name: WELCOME
           value: 'Steve'
+        - name: USE_JAVA11
+          value: "true"
           
   - name: liberty
     container:
