@@ -84,10 +84,3 @@ commands:
       component: dev
       commandLine: echo "hello ${WELCOME}"
       workingDir: ${PROJECT_SOURCE}
-projects:
-  - name: hello-application
-    git:
-      remotes:
-        origin: 'https://github.com/sqtran/hello-world-war.git'
-      checkoutFrom:
-        revision: liberty
