@@ -8,10 +8,21 @@ metadata:
 
 components:
 
-  - name: vscode-extensions
-    attributes:
-      extensions:
-        - cnshenj.vscode-task-manager
+  - name: vscode-editor
+    container:
+      image: che-incubator/che-code/latest
+      memoryLimit: 2Gi
+      mountSources: true
+      endpoints:
+        - name: web
+          targetPort: 3100
+      command:
+        - "sh"
+        - "-c"
+        - >
+          code --install-extension redhat.vscode-yaml &&
+          code --install-extension cnshenj.vscode-task-manager &&
+          tail -f /dev/null
 
   - name: dev
     container:
