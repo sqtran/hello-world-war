@@ -6,19 +6,13 @@ metadata:
     Devfile for building and deploying an application to IBM WebSphere Liberty
     on OpenShift DevSpaces
 
-attributes:
-  .vscode/extensions.json: |
-    {
-      "recommendations": [
-        "redhat.java",
-        "redhat.vscode-yaml",
-        "redhat.vscode-xml",
-        "redhat.vscode-openshift-connector",
-        "cnshenj.vscode-task-manager"
-      ]
-    }
-
 components:
+
+  - name: vscode-extensions
+    attributes:
+      extensions:
+        - cnshenj.vscode-task-manager
+
   - name: dev
     container:
       image: registry.redhat.io/devspaces/udi-rhel8
