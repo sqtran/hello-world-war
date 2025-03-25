@@ -10,7 +10,7 @@ components:
 
   - name: vscode-editor
     container:
-      image: che-incubator/che-code/latest
+      image: quay.io/che-incubator/che-code:latest
       memoryLimit: 2Gi
       mountSources: true
       endpoints:
