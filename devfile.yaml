@@ -1,6 +1,86 @@
-schemaVersion: 2.2.2
+schemaVersion: 2.1.0
 metadata:
-  name: test-devfile
+  name: websphere-liberty-app
   version: 1.0.0
-parent:
-  uri: https://raw.githubusercontent.com/sqtran/hello-world-war/refs/heads/liberty/testdevfile.yaml
+  description: >-
+    Devfile for building and deploying an application to IBM WebSphere Liberty
+    on OpenShift DevSpaces
+
+attributes:
+  .vscode/extensions.json: |
+    {
+      "recommendations": [
+        "redhat.java",
+        "redhat.vscode-yaml",
+        "redhat.vscode-xml",
+        "redhat.vscode-openshift-connector",
+        "cnshenj.vscode-task-manager"
+      ]
+    }
+
+components:
+  - name: dev
+    container:
+      image: registry.redhat.io/devspaces/udi-rhel8
+      memoryLimit: 1Gi
+      mountSources: true
+      volumeMounts:
+        - name: m2
+          path: /root/.m2
+      env:
+        - name: WELCOME
+          value: 'Steve'
+        - name: USE_JAVA11
+          value: "true"
+          
+  - name: liberty
+    container:
+      image: 'websphere-liberty:full-java17-openj9'
+      memoryLimit: 2Gi
+      mountSources: true
+      command:
+        - /bin/sh
+      args:
+        - '-c'
+        - 'while sleep 1000; do :; done'
+      endpoints:
+        - name: port-9080
+          targetPort: 9080
+          exposure: public
+          protocol: https
+      env:
+        - name: HOSTNAME
+          value: 'localhost'
+      
+  - name: m2
+    volume:
+      ephemeral: true
+      size: 2Gi
+
+commands:
+  - id: build-war
+    exec:
+      component: dev
+      commandLine: mvn clean package
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: build
+        isDefault: true
+  - id: deploy-war
+    exec:
+      component: liberty
+      commandLine: cp ${PROJECT_SOURCE}/target/*.war /liberty/usr/servers/defaultServer/dropins
+  - id: start-server
+    exec:
+      component: liberty
+      commandLine: /opt/ibm/wlp/bin/server run
+  - id: stop-server
+    exec:
+      component: liberty
+      commandLine: /opt/ibm/wlp/bin/server stop
+  - id: welcome
+    exec:
+      label: Show Welcome Message
+      component: dev
+      commandLine: echo "hello ${WELCOME}"
+      workingDir: ${PROJECT_SOURCE}

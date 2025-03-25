@@ -1,0 +1,6 @@
+schemaVersion: 2.2.2
+metadata:
+  name: test-devfile
+  version: 1.0.0
+parent:
+  uri: https://raw.githubusercontent.com/sqtran/hello-world-war/refs/heads/liberty/testdevfile.yaml
